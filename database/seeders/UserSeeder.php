@@ -15,8 +15,15 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'Master',
             'role_id' => 1,
-            'email' => 'admin@example.com',
+            'email' => 'admin@exmaple.com',
             'password' => Hash::make('1'),
-        ]);   
+        ]);
+        
+        User::create([
+            'name' => 'Master2',
+            'role_id' => 2,
+            'email' => 'admin2@exmaple.com',
+            'password' => Hash::make('1'),
+        ]);  
     }
 }
