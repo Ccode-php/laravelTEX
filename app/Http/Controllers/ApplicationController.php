@@ -12,7 +12,7 @@ class ApplicationController extends Controller
 
         if($request->hasFile('file_url')){
             $name = date('h-m-s') .$request->file('file_url')->getClientOriginalName();
-            $path = $request->file('file_url')->storeAs('public/files', $name);
+            $path = $request->file('file_url')->storeAs('files', $name, options: 'public');
         }
 
          $request->validate([
@@ -20,7 +20,7 @@ class ApplicationController extends Controller
             'message' => 'required',
             'file_url' =>  'file|mimes:png,jpg,bmp,png,pdf'
         ]);
-
+        
         $application = Application::create([
             'subject' => $request->subject,
             'message' => $request->message,
@@ -31,4 +31,6 @@ class ApplicationController extends Controller
 
         return redirect()->back();
     }
+
+    
 }

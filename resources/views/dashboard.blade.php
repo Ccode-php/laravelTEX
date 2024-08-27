@@ -8,130 +8,90 @@
     <div class="py-5">
         <div class="max-w-7xl mx-auto sm:px-12 lg:px-11">
 
-            <div class="p-6 text-gray-900">
+            <div class="p-6 text-gray-500">
                 @if (auth()->user()->role->name == 'manager')
                     <p class="mb-3 text-blue-500 text-xl font-bold"><span>Xabarnamalar!</span></p>
                     <!-- component -->
                     <!-- This is an example component -->
-                    <div class="rounded-xl border p-5 mt-5 shadow-md w-9/12 bg-white">
-                        <div class="flex w-full items-center justify-between border-b pb-3">
-                            <div class="flex items-center space-x-3">
-                                <div class="h-8 w-8 rounded-full bg-slate-400 bg-[url('https://i.pravatar.cc/32')]">
+                    @foreach ($applications as $application)
+                        <div class="rounded-xl border p-5 mt-5 shadow-md w-9/12 bg-white">
+                            <div class="flex w-full items-center justify-between border-b pb-3">
+                                <div class="flex items-center space-x-3">
+                                    <div class="h-8 w-8 rounded-full bg-slate-400 bg">
+                                        <img class="image rounded-circle"
+                                            src="{{ asset('storage/' . $application->user->image) }}">
+                                    </div>
+                                    <div class="text-lg font-bold text-slate-700">{{ $application->user->name }}</div>
                                 </div>
-                                <div class="text-lg font-bold text-slate-700">Joe Smith</div>
-                            </div>
-                            <div class="flex items-center space-x-8">
-                                <button
-                                    class="rounded-2xl border bg-neutral-100 px-3 py-1 text-xs font-semibold">Category</button>
-                                <div class="text-xs text-neutral-500">2 hours ago</div>
-                            </div>
-                        </div>
-
-                        <div class="mt-4 mb-3">
-                            <div class="mb-3 text-xl font-bold">Nulla sed leo tempus, feugiat velit vel, rhoncus
-                                neque?</div>
-                            <div class="text-sm text-neutral-1000">Aliquam a tristique sapien, nec bibendum urna.
-                                Maecenas convallis dignissim turpis, non suscipit mauris interdum at. Morbi sed
-                                gravida nisl, a pharetra nulla. Etiam tincidunt turpis leo, ut mollis ipsum
-                                consectetur quis. Etiam faucibus est risus, ac condimentum mauris consequat nec.
-                                Curabitur eget feugiat massa</div>
-                        </div>
-
-
-                        <div class="flex items-center justify-between text-slate-900">
-                            Email@email.com
-                            <!--        <div class="flex space-x-4 md:space-x-8">
-                                        <div class="flex cursor-pointer items-center transition hover:text-slate-600">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="mr-1.5 h-5 w-5"
-                                                fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                stroke-width="2">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
-                                            </svg>
-                                            <span>125</span>
-                                        </div>
-                                        <div class="flex cursor-pointer items-center transition hover:text-slate-600">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="mr-1.5 h-5 w-5"
-                                                fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                stroke-width="2">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
-                                            </svg>
-                                            <span>4</span>
-                                        </div>
-                                    </div>-->
-                        </div>
-
-                    </div>
-                    <div class="rounded-xl border p-5 mt-5 shadow-md w-9/12 bg-white">
-                        <div class="flex w-full items-center justify-between border-b pb-3">
-                            <div class="flex items-center space-x-3">
-                                <div class="h-8 w-8 rounded-full bg-slate-400 bg-[url('https://i.pravatar.cc/32')]">
+                                <div class="flex items-center space-x-8">
+                                    <button
+                                        class="rounded-2xl border bg-neutral-100 px-3 py-1 text-xs font-semibold">{{ $application->id }}</button>
+                                    <div class="text-xs text-neutral-500">{{ $application->created_at }}</div>
                                 </div>
-                                <div class="text-lg font-bold text-slate-700">Joe Smith</div>
                             </div>
-                            <div class="flex items-center space-x-8">
-                                <button
-                                    class="rounded-2xl border bg-neutral-100 px-3 py-1 text-xs font-semibold">Category</button>
-                                <div class="text-xs text-neutral-500">2 hours ago</div>
+
+                            <div class="flex justify-between">
+                                <div>
+                                    <div class="mt-4 mb-3">
+                                        <div class="mb-3 text-xl font-bold">{{ $application->subject }} </div>
+                                        <div class="text-sm text-neutral-1000">{{ $application->message }}</div>
+                                    </div>
+
+
+                                    <div class="flex items-center justify-between text-slate-900">
+                                        {{ $application->user->email }}
+                                    </div>
+                                </div>
+                                <div
+                                    class="border p-6 m-6 rounded hover:bg-gray-50 transition cursor-pointer flex flex-col items-center ">
+                                    <div>
+                                        @if (is_null($application->file_url))
+                                            <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                                stroke="currentColor" class="size-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M6 18 18 6M6 6l12 12" />
+                                            </svg>
+                                            No file
+                                        @else
+                                            <a href="{{ asset('storage/' . $application->file_url) }}"
+                                                target="_blank"><svg fill="none" viewBox="0 0 24 24"
+                                                    stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M6 18 18 6M6 6l12 12" />
+                                                </svg>
+                                                File
+                                            </a>
+                                        @endif
+
+
+                                    </div>
+                                </div>
                             </div>
+
+
+
                         </div>
-
-                        <div class="mt-4 mb-3">
-                            <div class="mb-3 text-xl font-bold">Nulla sed leo tempus, feugiat velit vel, rhoncus
-                                neque?</div>
-                            <div class="text-sm text-neutral-1000">Aliquam a tristique sapien, nec bibendum urna.
-                                Maecenas convallis dignissim turpis, non suscipit mauris interdum at. Morbi sed
-                                gravida nisl, a pharetra nulla. Etiam tincidunt turpis leo, ut mollis ipsum
-                                consectetur quis. Etiam faucibus est risus, ac condimentum mauris consequat nec.
-                                Curabitur eget feugiat massa</div>
-                        </div>
-
-
-                        <div class="flex items-center justify-between text-slate-900">
-                            Email@email.com
-                            <!--        <div class="flex space-x-4 md:space-x-8">
-                                        <div class="flex cursor-pointer items-center transition hover:text-slate-600">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="mr-1.5 h-5 w-5"
-                                                fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                stroke-width="2">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
-                                            </svg>
-                                            <span>125</span>
-                                        </div>
-                                        <div class="flex cursor-pointer items-center transition hover:text-slate-600">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="mr-1.5 h-5 w-5"
-                                                fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                stroke-width="2">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
-                                            </svg>
-                                            <span>4</span>
-                                        </div>
-                                    </div>-->
-                        </div>
-
-                    </div>
+                    @endforeach
                 @else
-                    
-
                     <!-- component -->
-                    <div
-                        class='flex items-center '>
+                    <div class='flex items-center '>
                         <div class='w-full max-w-lg px-10 py-8 mx-auto bg-white rounded-lg shadow-xl'>
                             <div class='max-w-md mx-auto space-y-6'>
 
-                                <form action="{{ route('applications.store') }}" method="POST" enctype="multipart/form-data">
+                                <form action="{{ route('applications.store') }}" method="POST"
+                                    enctype="multipart/form-data">
                                     @csrf
                                     <h2 class="text-2xl font-bold ">Submit your application</h2>
                                     <hr class="my-6">
                                     <label class="uppercase text-sm font-bold opacity-70">Subject</label>
-                                    <input type="text" name="subject" required class="p-3 mt-2 mb-4 w-full bg-slate-200 rounded border-2 border-slate-200 focus:border-slate-600 focus:outline-none">
+                                    <input type="text" name="subject" required
+                                        class="p-3 mt-2 mb-4 w-full bg-slate-200 rounded border-2 border-slate-200 focus:border-slate-600 focus:outline-none">
                                     <label class="uppercase text-sm font-bold opacity-70">Message</label>
-                                    <textarea name="message" required rows="5" class="p-3 mt-2 mb-4 w-full bg-slate-200 rounded border-2 border-slate-200 focus:border-slate-600 focus:outline-none"></textarea>
+                                    <textarea name="message" required rows="5"
+                                        class="p-3 mt-2 mb-4 w-full bg-slate-200 rounded border-2 border-slate-200 focus:border-slate-600 focus:outline-none"></textarea>
                                     <label class="uppercase text-sm font-bold opacity-70">File</label>
-                                    <input type="file" name="file_url" class="p-3 mt-2 mb-4 w-full bg-slate-200 rounded border-2 border-slate-200 focus:border-slate-600 focus:outline-none">
+                                    <input type="file" name="file_url"
+                                        class="p-3 mt-2 mb-4 w-full bg-slate-200 rounded border-2 border-slate-200 focus:border-slate-600 focus:outline-none">
                                     <input type="submit"
                                         class="py-3 px-6 my-2 bg-emerald-500 text-white font-medium rounded hover:bg-indigo-500 cursor-pointer ease-in-out duration-300"
                                         value="Send">
@@ -141,6 +101,10 @@
                         </div>
                     </div>
                 @endif
+
+                <div class="flex col-12 items-center">
+                    {{ $applications->links() }}
+                </div>
             </div>
         </div>
     </div>
