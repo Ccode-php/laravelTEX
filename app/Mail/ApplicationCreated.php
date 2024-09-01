@@ -48,9 +48,14 @@ class ApplicationCreated extends Mailable
     }
 
     public function build(){
-        return $this->from('example@example.com', 'Example')
+        $mail = $this->from('example@example.com', 'Example')
                     ->view('emails.application-created')
-                    ->subject('Application Created')
-                    ->attachFromStorageDisk('public', $this->application->file_url);
+                    ->subject('Application Created');
+                    
+                    if(! is_null($this->application->file_url)){
+                       $mail->attachFromStorageDisk('public', $this->application->file_url);
+                    }
+
+                    return $mail;
     }
 }
