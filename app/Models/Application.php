@@ -9,7 +9,7 @@ class Application extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'subject', 'message', 'file_url'];
+    protected $fillable = ['user_id', 'subject', 'message', 'file_url', 'ipadress'];
 
 
     public function user(){return $this->belongsTo(User::class);}
