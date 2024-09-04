@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Application;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class MainController extends Controller
@@ -11,7 +12,8 @@ class MainController extends Controller
         return view('dashboard');
     }
 
-    public function dashboard(){        
+    public function dashboard(){    
+          
         return view('dashboard')->with(['applications' => Application::latest()->paginate(10)]);
     }
 }
