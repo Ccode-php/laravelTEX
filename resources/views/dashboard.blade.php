@@ -38,6 +38,8 @@
                                     </div>
 
 
+
+
                                     <div class="flex items-center justify-between text-slate-900">
                                         {{ $application->user->email }}
                                     </div>
@@ -65,16 +67,34 @@
 
 
                                     </div>
+
                                 </div>
+
                             </div>
 
+                            @if ($application->answer()->exists())
+                                <div>
+                                    <hr>
+                                    <h3>Answer:<p>{{ $application->answer->body }}</p></h3>
+                                </div>
+                            @else
+                                <div class="flex justify-end">
+                                    <a href="{{ route('answers.create', ['application' => $application->id]) }}"
+                                        type="button"
+                                        class="middle none center mr-4 rounded-lg bg-green-500 py-3 px-4 font-sans text-sm font-bold uppercase text-white shadow-md shadow-green-500/20 transition-all hover:shadow-lg hover:shadow-green-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                                        data-ripple-light="true">
+                                        Answer
+                                    </a>
+                                </div>
+                            @endif
 
 
                         </div>
                     @endforeach
+                    <div class="flex col-12 items-center">
+                        {{ $applications->links() }}
+                    </div>
                 @else
-                   
-
                     @if (session()->has('error'))
                         <div class="max-w-lg mx-auto">
                             <div class="flex bg-blue-100 rounded-lg p-4 mb-4 text-sm text-blue-700" role="alert">
@@ -84,7 +104,7 @@
                                         clip-rule="evenodd"></path>
                                 </svg>
                                 <div>
-                                    <h1>{{ session()->get('error') }}</h1>
+                                    <h1 class="text-2xl">{{ session()->get('error') }}</h1>
                                 </div>
                             </div>
 
@@ -120,9 +140,7 @@
                     </div>
                 @endif
 
-                <div class="flex col-12 items-center">
-                    {{ $applications->links() }}
-                </div>
+
             </div>
         </div>
     </div>

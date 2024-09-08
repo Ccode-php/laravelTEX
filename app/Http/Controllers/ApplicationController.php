@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreApplicationRequest;
 use App\Jobs\SendMailJob;
 use App\Mail\ApplicationCreated;
 use App\Models\Application;
@@ -12,7 +13,11 @@ use Illuminate\Support\Facades\Mail;
 
 class ApplicationController extends Controller
 {
-    public function store(Request $request){
+
+    public function index(){
+        return view('applications.index')->with(['applications' => auth()->user()->application()->latest()->paginate(2)]);
+    }
+    public function store(StoreApplicationRequest $request){
 
         if($this->checkDate()){
             return redirect()->back()->with('error', 'Siz kunige bir marte arza jazalasiz');
@@ -23,12 +28,7 @@ class ApplicationController extends Controller
             $path = $request->file('file_url')->storeAs('files', $name, options: 'public');
         }
 
-         $request->validate([
-            'subject' => 'required|max:255',
-            'message' => 'required',
-            'file_url' =>  'file|mimes:png,jpg,bmp,png,pdf'
-        ]);
-        
+                 
         $application = Application::create([
             'subject' => $request->subject,
             'message' => $request->message,
